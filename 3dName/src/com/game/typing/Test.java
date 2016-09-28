@@ -1,9 +1,9 @@
 package com.game.typing;
 
-public class Hello {
+public class Test {
 
 	public static void main(String[] args) {
-		System.out.println("HelloGithub");
+		System.out.println("Hello Github");
 
 	}
 
