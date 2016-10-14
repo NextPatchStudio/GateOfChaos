@@ -94,7 +94,7 @@ public class TestGame extends ApplicationAdapter {
 		font1.draw(batch, text1.getTypedText(), text1.getxPosition(), text1.getyPosition());
 		font2.draw(batch, text1.getText(), text1.getxPosition()+text1.getTypedTextLarge(), text1.getyPosition());
 		batch.end();
-		if (text1.isFinish()) {
+		if (text1.isFinish() || text1.getyPosition() >= 500) {
 			text1.randomNewText();
 		}
 	}
