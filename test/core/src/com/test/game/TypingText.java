@@ -187,7 +187,7 @@ public class TypingText {
 	private String text = "", typedText = "", backUpText = "";
 	private final int[] CHALARGE = {9, 10, 11, 11, 10, 9, 11, 11, 3, 7, 10,
 			8, 12, 11, 11, 10, 11, 11, 10, 9, 11, 9, 15, 9, 9, 9};
-	private int xPosition = 0, yPosition = 0, typedTextLarge = 0;
+	private int textXPosition = 0, textYPosition = 0, imgXPosition = 0, imgYPosition = 0, typedTextLarge = 0;
 	
 	public int getTypedTextLarge() {
 		return typedTextLarge;
@@ -200,18 +200,6 @@ public class TypingText {
 	}
 	public void setBackUpText(String backUpText) {
 		this.backUpText = backUpText;
-	}
-	public int getxPosition() {
-		return xPosition;
-	}
-	public void setxPosition(int xPosition) {
-		this.xPosition = xPosition;
-	}
-	public int getyPosition() {
-		return yPosition;
-	}
-	public void setyPosition(int yPosition) {
-		this.yPosition = yPosition;
 	}
 	public String getTypedText() {
 		return typedText;
@@ -231,18 +219,44 @@ public class TypingText {
 	public void setTextList(String[] textList) {
 		this.textList = textList;
 	}
+	public int getTextXPosition() {
+		return textXPosition;
+	}
+	public void setTextXPosition(int textXPosition) {
+		this.textXPosition = textXPosition;
+	}
+	public int getTextYPosition() {
+		return textYPosition;
+	}
+	public void setTextYPosition(int textYPosition) {
+		this.textYPosition = textYPosition;
+	}
+	public int getImgXPosition() {
+		return imgXPosition;
+	}
+	public void setImgXPosition(int imgXXPosition) {
+		this.imgXPosition = imgXXPosition;
+	}
+	public int getImgYPosition() {
+		return imgYPosition;
+	}
+	public void setImgYPosition(int imgYPosition) {
+		this.imgYPosition = imgYPosition;
+	}
 	public void randomNewText() {
 		Random ran = new Random();
 		do {
-			int index = ran.nextInt(textList.length), xPos = ran.nextInt(850);
+			int index = ran.nextInt(textList.length), yPos = ran.nextInt(668);
 			text = textList[index];
-			xPosition =  xPos + 50;
+			textYPosition =  yPos + 50;
+			imgYPosition = textYPosition - 120;
 		} while (text == backUpText);
 		backUpText = text;
 		typedText = "";
 		typedTextLarge = 0;
 		
-		yPosition = 20;
+		textXPosition = 1366;
+		imgXPosition = textXPosition;
 	}
 	public void correctType() {
 		ArrayList<String> list = new ArrayList<String>();
@@ -276,7 +290,14 @@ public class TypingText {
 			return false;
 		}
 	}
-	public void movingY(int num) {
-		yPosition += num;
+	public void movingX(int num) {
+		textXPosition += num;
+		imgXPosition += num;
 	}
+	public void movingY(int num) {
+		textYPosition += num;
+		imgYPosition += num;
+	}
+	
+
 }
