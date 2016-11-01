@@ -184,10 +184,10 @@ public class TypingText {
 			"VOYAGE", "WAITER", "WANDER", "WARMTH", "WEALTH", "WEAPON", "WEEKLY",
 			"WEIGHT", "WICKED", "WINDOW", "WINTER", "WISDOM", "WITHIN", "WONDER",
 			"WOODEN", "WOOLEN", "WORTHY", "YEARLY", "YELLOW"};
-	private String text = "", typedText = "", backUpText = "";
-	private final int[] CHALARGE = {9, 10, 11, 11, 10, 9, 11, 11, 3, 7, 10,
+	protected String text = "", typedText = "", backUpText = "";
+	protected final int[] CHALARGE = {9, 10, 11, 11, 10, 9, 11, 11, 3, 7, 10,
 			8, 12, 11, 11, 10, 11, 11, 10, 9, 11, 9, 15, 9, 9, 9};
-	private int textXPosition = 0, textYPosition = 0, imgXPosition = 0, imgYPosition = 0, typedTextLarge = 0;
+	protected int textXPosition = 0, textYPosition = 0, imgXPosition = 0, imgYPosition = 0, typedTextLarge = 0;
 	
 	public int getTypedTextLarge() {
 		return typedTextLarge;
@@ -282,6 +282,10 @@ public class TypingText {
 	public char getFirstChar() {
 		char[] cha = text.toCharArray();
 		return cha[0];
+	}
+	public void finish() {
+		text = "";
+		typedText = backUpText;
 	}
 	public Boolean isFinish() {
 		if (text == "") {

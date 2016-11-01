@@ -17,25 +17,20 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 public class TestGame extends ApplicationAdapter {
 	SpriteBatch batch;
 	Texture img, imgTest1, imgTest2;
-	/*
 	TypingText text1, text2, text3, text4, text5;
 	BitmapFont font1, font2;
 	List<TypingText> list;
 	
-	int hight = 50, width = 50,upside = 0, numOfText, num = 0, num2 = 0;
-	*/
 	float elapsedTime;
-	//private TextureAtlas textureAtlas;
 	TextureRegion[] animationFrame1, animationFrame2;
 	private Animation animation1, animation2;
 	
+	long num = 0;
+	
 	@Override
 	public void create () {
-		//textureAtlas = new TextureAtlas(Gdx.files.internal("nong_tai.png"));
-		//animation = new Animation(1f/30f, textureAtlas.getRegions());
-		/*
 		list = new ArrayList<TypingText>();
-		text1 = new TypingText();
+		text1 = new SkillText();
 		text1.randomNewText();
 		text2 = new TypingText();
 		text2.randomNewText();
@@ -46,23 +41,21 @@ public class TestGame extends ApplicationAdapter {
 		text5 = new TypingText();
 		text5.randomNewText();
 		list.add(text1);list.add(text2);list.add(text3);list.add(text4);list.add(text5);
-		*/
 		batch = new SpriteBatch();
-		/*
 		font1 = new BitmapFont();
 		font2 = new BitmapFont();
 	    font1.setColor(Color.ORANGE);
 	    font2.setColor(Color.WHITE);
 	    img = new Texture(Gdx.files.internal("zombie-0.png"));
-	    */
+	    
 	    imgTest1 = new Texture(Gdx.files.internal("Charactor.png"));
-	    imgTest2 = new Texture(Gdx.files.internal("monster.png"));
+	    imgTest2 = new Texture(Gdx.files.internal("SlimeAnimated.png"));
 	    
 	    TextureRegion[][] tmpFrames1 = TextureRegion.split(imgTest1, 180, 186);
-	    TextureRegion[][] tmpFrames2 = TextureRegion.split(imgTest2, 300, 300);
+	    TextureRegion[][] tmpFrames2 = TextureRegion.split(imgTest2, 88, 84);
 	    
 	    animationFrame1 = new TextureRegion[5];
-	    animationFrame2 = new TextureRegion[25];
+	    animationFrame2 = new TextureRegion[7];
 	    int index = 0;
 	    
 	    for (int i=0;i<3;i++){
@@ -74,23 +67,23 @@ public class TestGame extends ApplicationAdapter {
 	    	}
 	    }
 	    index = 0;
-	    for (int i=0;i<5;i++){
-	    	for (int j=0;j<5;j++) {
+	    for (int i=0;i<1;i++){
+	    	for (int j=0;j<7;j++) {
 	    		animationFrame2[index++] = tmpFrames2[i][j];
 	    	}
 	    }
-	    		
 	    
 	    animation1 = new Animation(1f/5f, animationFrame1);
-	    animation2 = new Animation(1f/10f, animationFrame2);
+	    animation2 = new Animation(1f/1f, animationFrame2);
 	}
 
 	@Override
 	public void render () {
+		int check = -1;
 		Gdx.gl.glClearColor(0.5f, 0.5f, 0.5f, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		batch.begin();
-		/*
+		
 		for (int i=0;i<list.size();i++) {
 			if ((Gdx.input.isKeyJustPressed(Keys.A) && list.get(i).getFirstChar() == 'A') || 
 					(Gdx.input.isKeyJustPressed(Keys.B) && list.get(i).getFirstChar() == 'B') ||
@@ -147,42 +140,37 @@ public class TestGame extends ApplicationAdapter {
 					(Gdx.input.isKeyJustPressed(Keys.Z) && list.get(i).getFirstChar() != 'Z')) {
 				list.get(i).incorrectType();
 			}
-			list.get(i).movingX(-1);
-			int hhhhh1 = 605, hhhhh2 = 494, hhhhh3 = 383, hhhhh4 = 272, hhhhh5 = 161;
-			list.get(0).setTextYPosition(hhhhh1);
-			list.get(0).setImgYPosition(hhhhh1-120);
-			list.get(1).setTextYPosition(hhhhh2);
-			list.get(1).setImgYPosition(hhhhh2-120);
-			list.get(2).setTextYPosition(hhhhh3);
-			list.get(2).setImgYPosition(hhhhh3-120);
-			list.get(3).setTextYPosition(hhhhh4);
-			list.get(3).setImgYPosition(hhhhh4-120);
-			list.get(4).setTextYPosition(hhhhh5);
-			list.get(4).setImgYPosition(hhhhh5-120);
-			//batch.draw(img, list.get(i).getImgXPosition(), list.get(i).getImgYPosition());
-			//font1.draw(batch, list.get(i).getTypedText(), list.get(i).getTextXPosition(), list.get(i).getTextYPosition());
-			//font2.draw(batch, list.get(i).getText(), list.get(i).getTextXPosition()+list.get(i).getTypedTextLarge(), list.get(i).getTextYPosition());
-			if (list.get(i).isFinish() || list.get(i).getTextXPosition() <= 0) {
+			if (num == 0) {
+				list.get(i).movingX(-1);
+			}
+			//elapsedTime += Gdx.graphics.getDeltaTime();
+			//batch.draw(animation2.getKeyFrame(elapsedTime, true), list.get(i).getImgXPosition(), list.get(i).getImgYPosition());
+			font1.draw(batch, list.get(i).getTypedText(), list.get(i).getTextXPosition(), list.get(i).getTextYPosition());
+			font2.draw(batch, list.get(i).getText(), list.get(i).getTextXPosition()+list.get(i).getTypedTextLarge(), list.get(i).getTextYPosition());
+			if (list.get(0).isFinish()) {
+				if (list.get(0).getBackUpText() == "THUNDER") {
+					for (int j=1;j<list.size();j++) {
+						list.get(j).randomNewText();
+					}
+				} else if (list.get(0).getBackUpText() == "FREEZE") {
+					num = -500;
+				}
+			}
+			if (list.get(i).isFinish()) {
+				list.get(i).randomNewText();
+			} else if (list.get(i).getTextXPosition() <= 0) {
 				list.get(i).randomNewText();
 			}
 		}
-		*/
+
 		//batch.draw(img2, 30, 324);
-		elapsedTime += Gdx.graphics.getDeltaTime();
-		batch.draw(animation1.getKeyFrame(elapsedTime, true), 200, 200);
-		batch.draw(animation2.getKeyFrame(elapsedTime, true), 400, 200);
+		//elapsedTime += Gdx.graphics.getDeltaTime();
+		//batch.draw(animation1.getKeyFrame(elapsedTime, true), 200, 200);
+		//batch.draw(animation2.getKeyFrame(elapsedTime, true), 400, 200);
 		batch.end();
-		/*
-		num++;
-		if (num == 10) {
-			num = 0;
-			num2++;
-			if (num2 > 7) {
-				num2 = 0;
-			}
+		if (num < 0) {
+			num++;
 		}
-		img = new Texture(Gdx.files.internal("zombie-" + Integer.toString(num2) + ".png"));
-		*/
 	}
 	
 	@Override
