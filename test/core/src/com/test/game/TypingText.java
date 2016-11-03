@@ -188,6 +188,7 @@ public class TypingText {
 	protected final int[] CHALARGE = {9, 10, 11, 11, 10, 9, 11, 11, 3, 7, 10,
 			8, 12, 11, 11, 10, 11, 11, 10, 9, 11, 9, 15, 9, 9, 9};
 	protected int textXPosition = 0, textYPosition = 0, imgXPosition = 0, imgYPosition = 0, typedTextLarge = 0;
+	protected double backUpNum = 0;
 	
 	public int getTypedTextLarge() {
 		return typedTextLarge;
@@ -294,9 +295,13 @@ public class TypingText {
 			return false;
 		}
 	}
-	public void movingX(int num) {
-		textXPosition += num;
-		imgXPosition += num;
+	public void movingX(double num) {
+		backUpNum += num;
+		if (backUpNum >= 1) {
+			textXPosition -= Math.floor(backUpNum);
+			imgXPosition -= Math.floor(backUpNum);
+			backUpNum -= Math.floor(backUpNum);
+		}
 	}
 	public void movingY(int num) {
 		textYPosition += num;

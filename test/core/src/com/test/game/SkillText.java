@@ -3,7 +3,7 @@ package com.test.game;
 import java.util.Random;
 
 public class SkillText extends TypingText {
-	private String[] textList = {"THUNDER", "FREEZE"};
+	private String[] textList = {"THUNDER", "FREEZE", "BOMB", "SLOW"};
 	
 	public void randomNewText() {
 		Random ran = new Random();

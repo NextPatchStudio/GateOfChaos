@@ -25,7 +25,7 @@ public class TestGame extends ApplicationAdapter {
 	TextureRegion[] animationFrame1, animationFrame2;
 	private Animation animation1, animation2;
 	
-	long num = 0;
+	int freezeCheck = 0, slowCheck;
 	
 	@Override
 	public void create () {
@@ -140,8 +140,10 @@ public class TestGame extends ApplicationAdapter {
 					(Gdx.input.isKeyJustPressed(Keys.Z) && list.get(i).getFirstChar() != 'Z')) {
 				list.get(i).incorrectType();
 			}
-			if (num == 0) {
-				list.get(i).movingX(-1);
+			if (freezeCheck == 0 && slowCheck == 0) {
+				list.get(i).movingX(1);
+			} else if (slowCheck > 0) {
+				list.get(i).movingX(0.5);
 			}
 			//elapsedTime += Gdx.graphics.getDeltaTime();
 			//batch.draw(animation2.getKeyFrame(elapsedTime, true), list.get(i).getImgXPosition(), list.get(i).getImgYPosition());
@@ -153,7 +155,18 @@ public class TestGame extends ApplicationAdapter {
 						list.get(j).randomNewText();
 					}
 				} else if (list.get(0).getBackUpText() == "FREEZE") {
-					num = -500;
+					freezeCheck = 500;
+				} else if (list.get(0).getBackUpText() == "BOMB") {
+					for (int j=1;j<list.size();j++) {
+						double xResult = list.get(0).getTextXPosition() - list.get(j).getTextXPosition(), 
+								yResult = list.get(0).getTextYPosition() - list.get(j).getTextYPosition();
+						
+						if (Math.pow(Math.pow(xResult, 2) + Math.pow(yResult, 2), 0.5) <= 100) {
+							list.get(j).randomNewText();
+						}
+					}
+				}else if  (list.get(0).getBackUpText() == "SLOW") {
+					slowCheck = 500;
 				}
 			}
 			if (list.get(i).isFinish()) {
@@ -168,8 +181,11 @@ public class TestGame extends ApplicationAdapter {
 		//batch.draw(animation1.getKeyFrame(elapsedTime, true), 200, 200);
 		//batch.draw(animation2.getKeyFrame(elapsedTime, true), 400, 200);
 		batch.end();
-		if (num < 0) {
-			num++;
+		if (freezeCheck > 0) {
+			freezeCheck--;
+		}
+		if (slowCheck > 0) {
+			slowCheck--;
 		}
 	}
 	
