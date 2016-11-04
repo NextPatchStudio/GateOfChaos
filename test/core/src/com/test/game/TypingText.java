@@ -3,6 +3,8 @@ package com.test.game;
 import java.util.ArrayList;
 import java.util.Random;
 
+import com.badlogic.gdx.Gdx;
+
 public class TypingText {
 	
 	private String[] textList = {"ACT", "ADD", "AGE", "AGO", "AIM", "AIR", "ALL",
@@ -189,18 +191,19 @@ public class TypingText {
 			8, 12, 11, 11, 10, 11, 11, 10, 9, 11, 9, 15, 9, 9, 9};
 	protected int textXPosition = 0, textYPosition = 0, imgXPosition = 0, imgYPosition = 0, typedTextLarge = 0;
 	protected double backUpNum = 0;
+	protected float aniFrame = 0.0f;
 	
+	public float getAniFrame() {
+		return aniFrame;
+	}
+	public void setAniFrame(float aniFrame) {
+		this.aniFrame = aniFrame;
+	}
 	public int getTypedTextLarge() {
 		return typedTextLarge;
 	}
 	public void setTypedTextLarge(int typeTextLarge) {
 		this.typedTextLarge = typeTextLarge;
-	}
-	public String getBackUpText() {
-		return backUpText;
-	}
-	public void setBackUpText(String backUpText) {
-		this.backUpText = backUpText;
 	}
 	public String getTypedText() {
 		return typedText;
@@ -244,18 +247,40 @@ public class TypingText {
 	public void setImgYPosition(int imgYPosition) {
 		this.imgYPosition = imgYPosition;
 	}
+	public String getBackUpText() {
+		return backUpText;
+	}
+	public void setBackUpText(String backUpText) {
+		this.backUpText = backUpText;
+	}
+	public double getBackUpNum() {
+		return backUpNum;
+	}
+	public void setBackUpNum(double backUpNum) {
+		this.backUpNum = backUpNum;
+	}
 	public void randomNewText() {
 		Random ran = new Random();
-		do {
-			int index = ran.nextInt(textList.length), yPos = ran.nextInt(668);
-			text = textList[index];
-			textYPosition =  yPos + 50;
-			imgYPosition = textYPosition - 120;
-		} while (text == backUpText);
+		int[] height = {200, 325, 450, 575, 700};
+		int index = ran.nextInt(textList.length), index2 = ran.nextInt(height.length);
+		text = textList[index];
+		textYPosition =  height[index2];
+		imgYPosition = textYPosition - 190;
 		backUpText = text;
 		typedText = "";
 		typedTextLarge = 0;
-		
+		textXPosition = 1366;
+		imgXPosition = textXPosition;
+	}
+	public void randomNewText(int height) {
+		Random ran = new Random();
+		int index = ran.nextInt(textList.length);
+		text = textList[index];
+		textYPosition =  height;
+		imgYPosition = textYPosition - 190;
+		backUpText = text;
+		typedText = "";
+		typedTextLarge = 0;
 		textXPosition = 1366;
 		imgXPosition = textXPosition;
 	}
@@ -283,11 +308,7 @@ public class TypingText {
 	public char getFirstChar() {
 		char[] cha = text.toCharArray();
 		return cha[0];
-	}
-	public void finish() {
-		text = "";
-		typedText = backUpText;
-	}
+	}	
 	public Boolean isFinish() {
 		if (text == "") {
 			return true;
@@ -296,17 +317,19 @@ public class TypingText {
 		}
 	}
 	public void movingX(double num) {
-		backUpNum += num;
+		backUpNum += num * Gdx.graphics.getDeltaTime();
 		if (backUpNum >= 1) {
 			textXPosition -= Math.floor(backUpNum);
 			imgXPosition -= Math.floor(backUpNum);
 			backUpNum -= Math.floor(backUpNum);
 		}
 	}
-	public void movingY(int num) {
+	/*public void movingY(int num) {
 		textYPosition += num;
 		imgYPosition += num;
+	}*/
+	public void changeAniFrame(double num) {
+		aniFrame += num;
 	}
 	
-
 }
